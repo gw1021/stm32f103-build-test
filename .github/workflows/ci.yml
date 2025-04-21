@@ -34,6 +34,7 @@ jobs:
 
       - name: Convert ELF to BIN, Hex, and S19
         run: |
+          cd build
           arm-none-eabi-objcopy -O binary cmake-test.elf cmake-test.bin
           arm-none-eabi-objcopy -O ihex cmake-test.elf cmake-test.hex
           arm-none-eabi-objcopy -O srec cmake-test.elf cmake-test.s19
