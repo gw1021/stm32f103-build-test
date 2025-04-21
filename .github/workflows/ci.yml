@@ -34,3 +34,9 @@ jobs:
         cd build
         cmake ..
         make
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: STM32F103-Build
+        path: build/*.elf
