@@ -34,9 +34,9 @@ jobs:
 
       - name: Convert ELF to BIN, Hex, and S19
         run: |
-          arm-none-eabi-objcopy -O binary STM32F103.elf STM32F103.bin
-          arm-none-eabi-objcopy -O ihex STM32F103.elf STM32F103.hex
-          arm-none-eabi-objcopy -O srec STM32F103.elf STM32F103.s19
+          arm-none-eabi-objcopy -O binary cmake-test.elf cmake-test.bin
+          arm-none-eabi-objcopy -O ihex cmake-test.elf cmake-test.hex
+          arm-none-eabi-objcopy -O srec cmake-test.elf cmake-test.s19
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
