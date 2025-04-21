@@ -16,16 +16,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up CMake
-      uses: actions/setup-cmake@v2
-      with:
-        cmake-version: '3.21.1'
-
-    - name: Set up ARM toolchain
+    # CMake 설치 (APT로 설치)
+    - name: Install CMake
       run: |
         sudo apt-get update
+        sudo apt-get install -y cmake
+
+    # ARM 툴체인 설치
+    - name: Set up ARM toolchain
+      run: |
         sudo apt-get install -y gcc-arm-none-eabi
 
+    # CMake 빌드 및 빌드 실행
     - name: Build STM32 project
       run: |
         mkdir build
