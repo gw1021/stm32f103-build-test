@@ -14,20 +14,17 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
-    # CMake 설치 (APT로 설치)
     - name: Install CMake
       run: |
         sudo apt-get update
         sudo apt-get install -y cmake
 
-    # ARM 툴체인 설치
     - name: Set up ARM toolchain
       run: |
         sudo apt-get install -y gcc-arm-none-eabi
 
-    # CMake 빌드 및 빌드 실행
     - name: Build STM32 project
       run: |
         mkdir build
@@ -40,3 +37,22 @@ jobs:
       with:
         name: STM32F103-Build
         path: build/*.elf
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: build
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/*"
+          generateReleaseNotes: true
