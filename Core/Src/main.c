@@ -96,7 +96,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
     HAL_GPIO_TogglePin(FAN_CONT_GPIO_Port, FAN_CONT_Pin); // Toggle the fan control pin
-    HAL_Delay(5000); // Delay for 1 second
+    HAL_Delay(10000); // Delay for 10 second
 
     /* USER CODE BEGIN 3 */
   }
