@@ -47,6 +47,7 @@ jobs:
             build/*.elf
             build/*.bin
             build/*.hex
+            build/*.s19
 
   release:
     needs: build
