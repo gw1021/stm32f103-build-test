@@ -36,8 +36,8 @@ jobs:
 
       - name: Convert ELF to BIN and HEX
         run: |
-          arm-none-eabi-objcopy -O binary build/*.elf build/firmware.bin
-          arm-none-eabi-objcopy -O ihex build/*.elf build/firmware.hex
+          arm-none-eabi-objcopy -O binary build/Debug/cmake-test.elf build/Debug/cmake-test.bin
+          arm-none-eabi-objcopy -O ihex build/Debug/cmake-test.elf build/Debug/cmake-test.hex
 
       - name: Upload build artifacts
         if: github.ref_type != 'tag'  # 태그일 때는 release 잡에서 다운로드함
@@ -45,9 +45,8 @@ jobs:
         with:
           name: STM32F103-Build
           path: |
-            build/*.elf
-            build/*.bin
-            build/*.hex
+            build/Debug/cmake-test.bin
+            build/Debug/cmake-test.hex
 
   release:
     if: startsWith(github.ref, 'refs/tags/')
@@ -66,12 +65,12 @@ jobs:
           cd build
           cmake ..
           make
-          arm-none-eabi-objcopy -O binary *.elf firmware.bin
-          arm-none-eabi-objcopy -O ihex *.elf firmware.hex
+          arm-none-eabi-objcopy -O binary cmake-test.elf cmake-test.bin
+          arm-none-eabi-objcopy -O ihex cmake-test.elf cmake-test.hex
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.ref_name }}
-          artifacts: build/*
+          artifacts: build/Debug/cmake-test.bin,build/Debug/cmake-test.hex
           generateReleaseNotes: true
