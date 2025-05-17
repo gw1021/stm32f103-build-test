@@ -1,59 +1,16 @@
 # STM32 CubeMX and CMake specific ignores
-*.DS_Store
 .vscode/
 settings/
+.mxproject
+*.tmp
+*.bak
 
 # Build folders
 build/
 Debug/
 Release/
-cmake-build-*/
-
-# CubeMX generated files (except those needed for project)
-.mxproject
-*.tmp
-*.bak
-__pycache__/
-*.py[cod]
-*$py.class
-
-# IDE files
-.idea/
-*.iml
-*.iws
-*.launch
-
-# Binary files
-*.elf
-*.hex
-*.bin
-*.map
-*.list
-*.srec
-*.su
-*.o
-*.d
-*.obj
-
-# STM32CubeIDE specific
-.settings/
-.cproject
-.project
-
-# JLinkLog files
-JLinkLog.txt
-JLinkSettings.ini
-
-# Generated output folders
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
-
-# Compiler logs
-*.lst
-*.asm
 
 # Misc
-*.log
 .metadata/
+*.log
+*.DS_Store
