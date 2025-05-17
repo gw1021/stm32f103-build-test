@@ -23,24 +23,47 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi
 
-      - name: Build STM32 project
+      # Board1 빌드
+      - name: Build Board1 Debug
         run: |
-          cmake --preset Debug
-          cmake --build --preset Debug
+          cmake --preset Board1 -DCMAKE_BUILD_TYPE=Debug
+          cmake --build --preset Board1
 
-      - name: Convert ELF to BIN and HEX
+      - name: Convert Board1 ELF to BIN and HEX
         run: |
-          arm-none-eabi-objcopy -O binary build/Debug/cmake-test.elf build/Debug/cmake-test.bin
-          arm-none-eabi-objcopy -O ihex build/Debug/cmake-test.elf build/Debug/cmake-test.hex
+          arm-none-eabi-objcopy -O binary build/Board1/Board1-Debug.elf build/Board1/Board1-Debug.bin
+          arm-none-eabi-objcopy -O ihex build/Board1/Board1-Debug.elf build/Board1/Board1-Debug.hex
 
-      - name: Upload build artifacts
+      # Board2 빌드
+      - name: Build Board2 Debug
+        run: |
+          cmake --preset Board2 -DCMAKE_BUILD_TYPE=Debug
+          cmake --build --preset Board2
+
+      - name: Convert Board2 ELF to BIN and HEX
+        run: |
+          arm-none-eabi-objcopy -O binary build/Board2/Board2-Debug.elf build/Board2/Board2-Debug.bin
+          arm-none-eabi-objcopy -O ihex build/Board2/Board2-Debug.elf build/Board2/Board2-Debug.hex
+
+      # Board1 아티팩트 업로드
+      - name: Upload Board1 build artifacts
         if: github.ref_type != 'tag'  # 태그일 때는 release 잡에서 다운로드함
         uses: actions/upload-artifact@v4
         with:
-          name: STM32F103-Build
+          name: STM32F103-Board1-Debug
           path: |
-            build/Debug/cmake-test.bin
-            build/Debug/cmake-test.hex
+            build/Board1/Board1-Debug.bin
+            build/Board1/Board1-Debug.hex
+
+      # Board2 아티팩트 업로드
+      - name: Upload Board2 build artifacts
+        if: github.ref_type != 'tag'  # 태그일 때는 release 잡에서 다운로드함
+        uses: actions/upload-artifact@v4
+        with:
+          name: STM32F103-Board2-Debug
+          path: |
+            build/Board2/Board2-Debug.bin
+            build/Board2/Board2-Debug.hex
 
   release:
     if: startsWith(github.ref, 'refs/tags/')
@@ -51,18 +74,34 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Rebuild (태그 푸시된 커밋 기준)
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi
-          cmake --preset Debug
-          cmake --build --preset Debug
-          arm-none-eabi-objcopy -O binary build/Debug/cmake-test.elf build/Debug/cmake-test.bin
-          arm-none-eabi-objcopy -O ihex build/Debug/cmake-test.elf build/Debug/cmake-test.hex
+
+      # Board1 빌드
+      - name: Build Board1 Debug (태그 푸시된 커밋 기준)
+        run: |
+          cmake --preset Board1 -DCMAKE_BUILD_TYPE=Debug
+          cmake --build --preset Board1
+          arm-none-eabi-objcopy -O binary build/Board1/Board1-Debug.elf build/Board1/Board1-Debug.bin
+          arm-none-eabi-objcopy -O ihex build/Board1/Board1-Debug.elf build/Board1/Board1-Debug.hex
+
+      # Board2 빌드
+      - name: Build Board2 Debug (태그 푸시된 커밋 기준)
+        run: |
+          cmake --preset Board2 -DCMAKE_BUILD_TYPE=Debug
+          cmake --build --preset Board2
+          arm-none-eabi-objcopy -O binary build/Board2/Board2-Debug.elf build/Board2/Board2-Debug.bin
+          arm-none-eabi-objcopy -O ihex build/Board2/Board2-Debug.elf build/Board2/Board2-Debug.hex
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.ref_name }}
-          artifacts: build/Debug/cmake-test.bin,build/Debug/cmake-test.hex
+          artifacts: |
+            build/Board1/Board1-Debug.bin
+            build/Board1/Board1-Debug.hex
+            build/Board2/Board2-Debug.bin
+            build/Board2/Board2-Debug.hex
           generateReleaseNotes: true

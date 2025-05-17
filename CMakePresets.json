@@ -6,8 +6,10 @@
             "hidden": true,
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
-		    "toolchainFile": "${sourceDir}/cmake/gcc-arm-none-eabi.cmake",
+            "toolchainFile": "${sourceDir}/cmake/gcc-arm-none-eabi.cmake",
             "cacheVariables": {
+                "SELECTED_BOARD": "Board1",
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
@@ -18,13 +20,6 @@
             }
         },
         {
-            "name": "RelWithDebInfo",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-            }
-        },
-        {
             "name": "Release",
             "inherits": "default",
             "cacheVariables": {
@@ -32,10 +27,31 @@
             }
         },
         {
+            "name": "RelWithDebInfo",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
             "name": "MinSizeRel",
             "inherits": "default",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "MinSizeRel"
+            }
+        },
+        {
+            "name": "Board1",
+            "inherits": "default",
+            "cacheVariables": {
+                "SELECTED_BOARD": "Board1"
+            }
+        },
+        {
+            "name": "Board2",
+            "inherits": "default",
+            "cacheVariables": {
+                "SELECTED_BOARD": "Board2"
             }
         }
     ],
@@ -45,16 +61,24 @@
             "configurePreset": "Debug"
         },
         {
-            "name": "RelWithDebInfo",
-            "configurePreset": "RelWithDebInfo"
-        },
-        {
             "name": "Release",
             "configurePreset": "Release"
         },
         {
+            "name": "RelWithDebInfo",
+            "configurePreset": "RelWithDebInfo"
+        },
+        {
             "name": "MinSizeRel",
             "configurePreset": "MinSizeRel"
+        },
+        {
+            "name": "Board1",
+            "configurePreset": "Board1"
+        },
+        {
+            "name": "Board2",
+            "configurePreset": "Board2"
         }
     ]
 }

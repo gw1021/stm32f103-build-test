@@ -1,2 +1,4 @@
-# Ignore CMake build directory
+*.DS_Store
+.vscode/
+settings/
 build/
